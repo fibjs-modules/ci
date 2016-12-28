@@ -5,9 +5,10 @@ services:
 
 before_install:
 - docker pull fibjs/fibjs:nightly
-- docker run -d -p 127.0.0.1:80:4567 fibjs/fibjs:nightly /bin/sh -c "ls -la"
+- docker run -d -p 127.0.0.1:80:4567 fibjs/fibjs:nightly /bin/sh -c "ls -la; echo ' xxx test xxx ' "
 - docker ps -a
 - docker run fibjs/fibjs:nightly /bin/sh -c "ls -la"
 
 script:
+- echo ' yyy test yyy '
 - ls -la
