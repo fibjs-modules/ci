@@ -12,3 +12,4 @@ before_install:
 script:
 - echo ' yyy test yyy '
 - ls -la
+- docker run fibjs/fibjs:nightly /bin/sh -c "ls -la; pwd"
