@@ -8,9 +8,9 @@ before_install:
 - docker run -d -p 127.0.0.1:80:4567 fibjs/fibjs:nightly
 
 script:
-- docker run fibjs/fibjs:nightly /bin/sh -c "git clone --depth=50 --branch=test https://github.com/fibjs-modules/ci.git fibjs-modules/ci"
+- docker run fibjs/fibjs:nightly /bin/sh -c "git clone --depth=50 --branch=test https://github.com/fibjs-modules/ci.git /home/ci"
 # - docker run fibjs/fibjs:nightly /bin/sh -c "cd fibjs-modules/ci"
-- docker run fibjs/fibjs:nightly /bin/sh -c "ls -la"
+- docker run fibjs/fibjs:nightly /bin/sh -c "ls -la /home"
 - docker run fibjs/fibjs:nightly /bin/sh -c "pwd"
 
 # - echo ' yyy test yyy '
