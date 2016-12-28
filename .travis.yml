@@ -10,6 +10,7 @@ script:
 - docker pull fibjs/fibjs:nightly
 - docker run -d -p 127.0.0.1:80:4567 --name app fibjs/fibjs:nightly
 - docker ps -a
+- sleep 20
 - pwd
 - ls -la
 - docker exec app fibjs app.js
