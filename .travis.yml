@@ -11,7 +11,7 @@ script:
 # - docker run fibjs/fibjs:nightly /bin/sh -c "git clone --depth=50 --branch=test https://github.com/fibjs-modules/ci.git /home/ci"
 # - docker run fibjs/fibjs:nightly /bin/sh -c "cd fibjs-modules/ci"
 # - docker run fibjs/fibjs:nightly /bin/sh -c "ls -la /home"
-- docker run app fibjs app.js
+- docker exec app fibjs app.js
 - pwd
 
 # - echo ' yyy test yyy '
