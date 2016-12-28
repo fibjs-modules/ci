@@ -13,7 +13,7 @@ script:
 # - sleep 20
 - pwd
 - ls -la
-- docker run -v ${pwd}:/home fibjs/fibjs:nightly fibjs /home/app.js
+- dir=`pwd`; docker run -v ${dir}:/home fibjs/fibjs:nightly fibjs /home/app.js
 # - docker run fibjs/fibjs:nightly pwd 
 # - docker run fibjs/fibjs:nightly cd /home
 # - docker run fibjs/fibjs:nightly ls -la home
