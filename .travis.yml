@@ -8,12 +8,12 @@ script:
 # - docker run fibjs/fibjs:nightly /bin/sh -c "cd fibjs-modules/ci"
 # - docker run fibjs/fibjs:nightly /bin/sh -c "ls -la /home"
 - docker pull fibjs/fibjs:nightly
-- docker run -d -p 127.0.0.1:80:4567 --name app fibjs/fibjs:nightly
+# - docker run -d -p 127.0.0.1:80:4567 --name app fibjs/fibjs:nightly
 - docker ps -a
-- sleep 20
+# - sleep 20
 - pwd
 - ls -la
-- docker exec app fibjs app.js
+- docker run fibjs/fibjs:nightly fibjs app.js
 # - docker run fibjs/fibjs:nightly pwd 
 # - docker run fibjs/fibjs:nightly cd /home
 # - docker run fibjs/fibjs:nightly ls -la home
