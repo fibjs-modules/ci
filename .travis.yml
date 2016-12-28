@@ -5,13 +5,14 @@ services:
 
 before_install:
 - docker pull fibjs/fibjs:nightly
-- docker run -d -p 127.0.0.1:80:4567 fibjs/fibjs:nightly
+- docker run -d -p 127.0.0.1:80:4567 -v /home/travis/build/fibjs-modules/ci:/home/fibjs-modules/ci fibjs/fibjs:nightly
 
 script:
 # - docker run fibjs/fibjs:nightly /bin/sh -c "git clone --depth=50 --branch=test https://github.com/fibjs-modules/ci.git /home/ci"
 # - docker run fibjs/fibjs:nightly /bin/sh -c "cd fibjs-modules/ci"
 # - docker run fibjs/fibjs:nightly /bin/sh -c "ls -la /home"
 - docker run fibjs/fibjs:nightly pwd 
+- docker run fibjs/fibjs:nightly cd /home/fibjs-modules/ci
 - docker run fibjs/fibjs:nightly ls -la
 - pwd
 
