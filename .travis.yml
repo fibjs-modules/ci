@@ -12,8 +12,8 @@ script:
 # - docker run fibjs/fibjs:nightly /bin/sh -c "cd fibjs-modules/ci"
 # - docker run fibjs/fibjs:nightly /bin/sh -c "ls -la /home"
 - docker run fibjs/fibjs:nightly pwd 
-- docker run fibjs/fibjs:nightly cd /home
-- docker run fibjs/fibjs:nightly ls -la
+# - docker run fibjs/fibjs:nightly cd /home
+- docker run fibjs/fibjs:nightly ls -la home
 - pwd
 
 # - echo ' yyy test yyy '
