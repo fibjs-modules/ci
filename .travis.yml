@@ -5,4 +5,4 @@ services:
 
 script:
 - docker pull fibjs/fibjs:v0.2.1
-- dir=`pwd`; docker run -v ${dir}:/home/app_tmp fibjs/fibjs:v0.2.1 ls -la /home ;cd /home/app_tmp ;cp -rf ./ ../app; cd ..;ls -la ;  cd app; npm install;npm run test;
+- dir=`pwd`; docker run -v ${dir}:/home fibjs/fibjs:v0.2.1 ls -la /home ;cd /home; ls -la ; npm install; npm run test;
