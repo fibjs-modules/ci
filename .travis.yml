@@ -4,23 +4,5 @@ services:
   - docker
 
 script:
-# - docker run fibjs/fibjs:nightly /bin/sh -c "git clone --depth=50 --branch=test https://github.com/fibjs-modules/ci.git /home/ci"
-# - docker run fibjs/fibjs:nightly /bin/sh -c "cd fibjs-modules/ci"
-# - docker run fibjs/fibjs:nightly /bin/sh -c "ls -la /home"
-- docker pull fibjs/fibjs:nightly
-# - docker run -d -p 127.0.0.1:80:4567 --name app fibjs/fibjs:nightly
-- docker ps -a
-# - sleep 20
-- pwd
-- ls -la
-- dir=`pwd`; docker run -v ${dir}:/home fibjs/fibjs:nightly fibjs /home/app.js
-# - docker run fibjs/fibjs:nightly pwd 
-# - docker run fibjs/fibjs:nightly cd /home
-# - docker run fibjs/fibjs:nightly ls -la home
-
-# - echo ' yyy test yyy '
-# - ls -la
-# - which fibjs
-# - docker run fibjs/fibjs:nightly /bin/sh -c "ls -la"
-# - docker run fibjs/fibjs:nightly /bin/sh -c "which fibjs"
-# - docker run fibjs/fibjs:nightly /bin/sh -c "exit 1"
+- docker pull fibjs/fibjs:v0.2.1
+- dir=`pwd`; docker run -v ${dir}:/home/app_tmp fibjs/fibjs:v0.2.1 cp app_tmp app; cd /home/app; npm install;npm run test;
