@@ -10,10 +10,12 @@ script:
 - docker pull fibjs/fibjs:nightly
 - docker run -d -p 127.0.0.1:80:4567 --name app fibjs/fibjs:nightly
 - docker ps -a
+- pwd
+- ls -la
+- docker exec fibjs app.js
 # - docker run fibjs/fibjs:nightly pwd 
 # - docker run fibjs/fibjs:nightly cd /home
 # - docker run fibjs/fibjs:nightly ls -la home
-- pwd
 
 # - echo ' yyy test yyy '
 # - ls -la
