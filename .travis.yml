@@ -1,0 +1,13 @@
+sudo: required
+
+services:
+  - docker
+
+before_install:
+- docker pull fibjs/fibjs:nightly
+- docker run -d -p 127.0.0.1:80:4567 fibjs/fibjs /bin/sh -c "ls -la"
+- docker ps -a
+- docker run fibjs/fibjs /bin/sh -c "ls -la"
+
+script:
+- ls -la
