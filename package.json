@@ -7,7 +7,7 @@
     "test": "test"
   },
   "scripts": {
-    "test": "fibjs app.js"
+    "ci": "fibjs app.js"
   },
   "repository": {
     "type": "git",
