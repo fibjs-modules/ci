@@ -25,6 +25,8 @@ const config = Object.assign({
 }, pkg.ci);
 config.types = arrayify(config.type);
 
+let ymlName = '';
+
 for (const type of config.types) {
   if (type === 'travis') {
     ymlName = '.travis.yml';
