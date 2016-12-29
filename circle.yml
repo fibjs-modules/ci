@@ -5,4 +5,4 @@ machine:
 test:
   override:
     - docker pull fibjs/fibjs:ci
-    - dir=`pwd` ;docker run -d -v ${dir}:/home/ci  fibjs/fibjs:ci sh /home/ci-script
+    - dir=`pwd` ;docker run -it -v ${dir}:/home/ci  fibjs/fibjs:ci sh /home/ci-script
