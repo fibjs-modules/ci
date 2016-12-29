@@ -6,9 +6,9 @@ const fs = require('fs');
 let root;
 // support npminstall path
 if (__dirname.indexOf('.npminstall') >= 0) {
-  root = path.join(__dirname, '../../../../..');
+  root = path.join(__dirname, '../../../../../..');
 } else {
-  root = path.join(__dirname, '../..');
+  root = path.join(__dirname, '../../..');
 }
 
 let pkg;
