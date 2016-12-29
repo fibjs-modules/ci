@@ -4,8 +4,7 @@ machine:
 
 test:
   override:
-    - docker run -d -p 9200:9200 fibjs/fibjs:nightly; sleep 10
-    - docker run fibjs/fibjs:nightly bundle exec rake test
-    # - docker run fibjs/fibjs:nightly fibjs app.js
-    # - ls -la
-    # - fibjs app.js
+    - docker pull fibjs/fibjs:ci
+    - dir=`pwd`;docker create -it --name ci -v ${dir}:/home/ci  fibjs/fibjs:ci
+    - docker start ci
+    - docker exec ci sh /home/ci-script
