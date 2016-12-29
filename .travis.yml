@@ -7,4 +7,4 @@ script:
 - docker pull fibjs/fibjs:ci
 - dir=`pwd`;docker create -it --name ci -v ${dir}:/home/ci  fibjs/fibjs:ci
 - docker start ci
-- docker exec ci sh /home/ci
+- docker exec ci sh /home/ci-script
