@@ -1,0 +1,20 @@
+{
+  "name": "@fibjs/ci",
+  "version": "1.0.0",
+  "description": "CI tool for fibjs project.",
+  "main": "app.js",
+  "scripts": {
+    "postinstall": "node generator.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fibjs-modules/ci.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fibjs-modules/ci/issues"
+  },
+  "homepage": "https://github.com/fibjs-modules/ci#readme",
+  "dependencies": {}
+}
