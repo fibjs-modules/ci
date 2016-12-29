@@ -1,0 +1,8 @@
+machine:
+  services:
+    - docker
+
+test:
+  override:
+    - docker pull fibjs/fibjs:ci
+    - dir=`pwd` ;docker run -it -v ${dir}:/home/ci  fibjs/fibjs:ci sh /home/ci-script
