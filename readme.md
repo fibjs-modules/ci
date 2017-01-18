@@ -12,9 +12,17 @@ $ npm i @fibjs/ci --save-dev
 
 Add `ci` property to your `package.json`:
 
-```js
+```json
 "ci": {
   "type": "travis, circle" // default ci env type is 'travis, appveyor'
+}
+```
+
+and ci system will automatically exec `npm run ci` command, so please add this to your `package.json`:
+
+```json
+"scritps": {
+  "ci": "fibjs test/test.js"
 }
 ```
 
