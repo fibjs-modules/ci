@@ -1,9 +1,3 @@
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - curl
 language: node_js
 node_js: '6'
 env:
