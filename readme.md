@@ -14,7 +14,8 @@ Add `ci` property to your `package.json`:
 
 ```json
 "ci": {
-  "type": "travis, circle" // default ci env type is 'travis, appveyor'
+  "type": "travis, appveyor", // default ci env type is 'travis, appveyor'
+  "version": "0.3.0" // default version is 0.3.0. Only support version >= 0.3.0
 }
 ```
 
