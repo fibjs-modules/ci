@@ -2,6 +2,12 @@
 
 const path = require('path');
 const fs = require('fs');
+const nunjucks = require('nunjucks');
+
+const engine = nunjucks.configure({
+  autoescape: false,
+  watch: false,
+});
 
 let root;
 // support npminstall path
@@ -21,23 +27,28 @@ try {
 }
 
 const config = Object.assign({
-  type: 'travis, circle', // default is travis and appveyor
+  type: 'travis, appveyor', // default is travis and appveyor
+  version: '0.3.0', // default version to 0.3.0
 }, pkg.ci);
 config.types = arrayify(config.type);
+config.versions = arrayify(config.version);
 
 let ymlName = '';
 
 for (const type of config.types) {
   if (type === 'travis') {
     ymlName = '.travis.yml';
-  } else if (type === 'circle') {
-    ymlName = 'circle.yml';
+  } else if (type === 'appveyor') {
+    ymlName = 'appveyor.yml';
   } else {
     throw new Error(`${type} type not support`);
   }
   const tplPath = path.join(__dirname, 'tpl', ymlName);
   const ymlPath = path.join(root, ymlName);
-  fs.writeFileSync(ymlPath, fs.readFileSync(tplPath));
+
+  let ymlContent = fs.readFileSync(tplPath, 'utf8');
+  ymlContent = engine.renderString(ymlContent, config);
+  fs.writeFileSync(ymlPath, ymlContent);
   console.log(`[fibjs-ci] create ${ymlPath} success`);
 }
 

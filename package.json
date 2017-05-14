@@ -16,5 +16,7 @@
     "url": "https://github.com/fibjs-modules/ci/issues"
   },
   "homepage": "https://github.com/fibjs-modules/ci#readme",
-  "dependencies": {}
+  "dependencies": {
+    "nunjucks": "^3.0.0"
+  }
 }
