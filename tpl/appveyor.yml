@@ -8,7 +8,7 @@ environment:
 install:
   - ps: Install-Product node $env:nodejs_version
   - npm i
-  - mkdir node_modules\.bin
+  - If Not Exist "node_modules\.bin" (mkdir node_modules\.bin)
   - curl -fsSL -o node_modules\.bin\fibjs.exe "https://github.com/fibjs/fibjs/releases/download/v%VERSION%/fibjs-windows-x64.exe"
 
 test_script:
