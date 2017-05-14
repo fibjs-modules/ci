@@ -1,6 +1,6 @@
 {
   "name": "@fibjs/ci",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "CI tool for fibjs project.",
   "main": "app.js",
   "scripts": {
