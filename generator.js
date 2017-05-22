@@ -28,7 +28,7 @@ try {
 
 const config = Object.assign({
   type: 'travis, appveyor', // default is travis and appveyor
-  version: '0.3.0', // default version to 0.3.0
+  version: '0.3.1', // default version to 0.3.1
 }, pkg.ci);
 config.types = arrayify(config.type);
 config.versions = arrayify(config.version);
