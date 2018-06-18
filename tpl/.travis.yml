@@ -1,13 +1,32 @@
 language: node_js
 node_js: '6'
-env:
+matrix:
+  include:
   {%- for version in versions %}
-  - VERSION={{version}}
+    - os: linux
+      env:
+        - VERSION={{version}}
   {%- endfor %}
+  {%- for version in versions %}
+    - os: osx
+      osx_image: xcode9
+      env:
+        - VERSION={{version}}
+  {%- endfor %}
+before_install:
+  - OS=linux
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      rvm install ruby-2.4.0;
+      rvm --default use 2.4.0;
+      ruby -v;
+      brew update;
+      brew install xz;
+      OS=darwin;
+    fi
 script:
   - npm i
   - mkdir -p ./node_modules/.bin
-  - curl -SL "https://github.com/fibjs/fibjs/releases/download/v${VERSION}/fibjs-v${VERSION}-linux-x64.xz" -o ./node_modules/.bin/fibjs.xz
+  - curl -SL "https://github.com/fibjs/fibjs/releases/download/v${VERSION}/fibjs-v${VERSION}-${OS}-x64.xz" -o ./node_modules/.bin/fibjs.xz
   - xz -d ./node_modules/.bin/fibjs.xz
   - chmod a+x ./node_modules/.bin/fibjs
   - npm run ci
