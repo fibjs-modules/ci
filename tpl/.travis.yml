@@ -13,6 +13,13 @@ matrix:
       env:
         - VERSION={{version}}
   {%- endfor %}
+
+{%- if use_travis_services %}
+services:
+  {%- for service in travis_services %}
+    - {{service}}
+  {%- endfor %}
+{%- endif %}
 before_install:
   - OS=linux
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
@@ -22,7 +29,14 @@ before_install:
       brew update;
       brew install xz;
       OS=darwin;
+      {%- if use_travis_service__mysql %}
+      brew install mariadb;
+      mysql.server start;
+      {%- endif %}
     fi
+  {%- if use_travis_service__mysql %}
+  - mysql -uroot -e 'CREATE DATABASE IF NOT EXISTS `fibjs-test`;';
+  {%- endif %}
 script:
   - npm i
   - mkdir -p ./node_modules/.bin
