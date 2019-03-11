@@ -1,4 +1,9 @@
 
+2.2.0 / 2019-03-11
+==================
+
+  * feat: support customize built in services for .travis.yml and add samples for test locally;  (#4)
+
 2.1.0 / 2018-06-19
 ==================
 
