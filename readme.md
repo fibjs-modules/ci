@@ -14,8 +14,14 @@ Add `ci` property to your `package.json`:
 
 ```json
 "ci": {
-  "type": "travis, appveyor", // default ci env type is 'travis, appveyor'
-  "version": "0.3.1" // default version is 0.3.1. Only support version >= 0.3.1
+  // default ci env type is 'travis, appveyor'
+  "type": "travis, appveyor",
+  // default version is 0.3.1. Only support version >= 0.3.1
+  "version": "0.3.1",
+  // support use built-in services for travis
+  "travis_services": [
+    "mysql"
+  ]
 }
 ```
 

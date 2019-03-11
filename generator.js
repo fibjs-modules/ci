@@ -10,9 +10,12 @@ const engine = nunjucks.configure({
 });
 
 let root;
+const env_sample_name = process.env.FIBJSCI_SAMPLE_NAME || 'normal';
 // support npminstall path
 if (__dirname.indexOf('.npminstall') >= 0) {
   root = path.join(__dirname, '../../../../../..');
+} else if (is_tested_locally(env_sample_name)) {
+  root = path.join(__dirname, `./samples/${env_sample_name}`);
 } else {
   root = path.join(__dirname, '../../..');
 }
@@ -27,11 +30,24 @@ try {
 }
 
 const config = Object.assign({
-  type: 'travis, appveyor', // default is travis and appveyor
-  version: '0.3.1', // default version to 0.3.1
+  // default is travis and appveyor
+  type: 'travis, appveyor',
+  // default version to 0.3.1
+  version: '0.3.1',
+  // default empty
+  /* travis services about: start */
+  travis_services: [],
+  get use_travis_services () {
+    return !!this.travis_services.length
+  },
+  get use_travis_service__mysql () {
+    return ~this.travis_services.indexOf('mysql')
+  }
+  /* travis services about: end */
 }, pkg.ci);
 config.types = arrayify(config.type);
 config.versions = arrayify(config.version);
+config.travis_services = arrayify(config.travis_services);
 
 let ymlName = '';
 
@@ -55,4 +71,10 @@ for (const type of config.types) {
 function arrayify(str) {
   if (Array.isArray(str)) return str;
   return str.split(/\s*,\s*/).filter(s => !!s);
+}
+
+function is_tested_locally (env_sample_name = process.env.FIBJSCI_SAMPLE_NAME) {
+  return !!env_sample_name && fs.existsSync(
+    path.resolve(__dirname, './samples/.lifecyclecheck')
+  )
 }

@@ -1,0 +1,15 @@
+{
+  "name": "normal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm i ../../"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "@fibjs/ci": "file:../.."
+  }
+}
