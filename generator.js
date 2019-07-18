@@ -42,12 +42,15 @@ const config = Object.assign({
   },
   get use_travis_service__mysql () {
     return ~this.travis_services.indexOf('mysql')
+  },
+  get need_brew_for_osx () {
+    return this.use_travis_service__mysql
   }
   /* travis services about: end */
 }, pkg.ci);
-config.types = arrayify(config.type);
-config.versions = arrayify(config.version);
-config.travis_services = arrayify(config.travis_services);
+config.types = arraify(config.type);
+config.versions = arraify(config.version);
+config.travis_services = arraify(config.travis_services);
 
 let ymlName = '';
 
@@ -68,7 +71,7 @@ for (const type of config.types) {
   console.log(`[fibjs-ci] create ${ymlPath} success`);
 }
 
-function arrayify(str) {
+function arraify(str) {
   if (Array.isArray(str)) return str;
   return str.split(/\s*,\s*/).filter(s => !!s);
 }

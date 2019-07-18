@@ -22,18 +22,19 @@ services:
 {%- endif %}
 before_install:
   - OS=linux
+  {% if need_brew_for_osx %}
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       rvm install ruby-2.4.0;
       rvm --default use 2.4.0;
       ruby -v;
       brew update;
-      brew install xz;
       OS=darwin;
       {%- if use_travis_service__mysql %}
       brew install mariadb;
       mysql.server start;
       {%- endif %}
     fi
+  {%- endif %}
   {%- if use_travis_service__mysql %}
   - mysql -uroot -e 'CREATE DATABASE IF NOT EXISTS `fibjs-test`;';
   {%- endif %}
@@ -41,6 +42,5 @@ script:
   - npm i
   - mkdir -p ./node_modules/.bin
   - curl -SL "https://github.com/fibjs/fibjs/releases/download/v${VERSION}/fibjs-v${VERSION}-${OS}-x64.xz" -o ./node_modules/.bin/fibjs.xz
-  - xz -d ./node_modules/.bin/fibjs.xz
   - chmod a+x ./node_modules/.bin/fibjs
   - npm run ci
