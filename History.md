@@ -1,7 +1,26 @@
 
+2.4.2 / 2021-08-02
+==================
+
+  * fix: actions tpl.
+
+2.4.1 / 2021-08-02
+==================
+
+  * Release 2.4.1
+  * fix: actions tpl.
+  * chore: mark sample npm packages private to avoid publishment.
+
+2.4.0 / 2021-08-02
+==================
+
+  * Release 2.4.0
+  * feat: support type 'actions'
+
 2.3.0 / 2019-07-28
 ==================
 
+  * Release 2.3.0
   * feat: adapt default config about directroy cache in travis ci.
 
 2.2.0 / 2019-03-11
