@@ -18,5 +18,9 @@
   "homepage": "https://github.com/fibjs-modules/ci#readme",
   "dependencies": {
     "nunjucks": "^3.0.0"
-  }
+  },
+  "files": [
+    "generator.js",
+    "tpl"
+  ]
 }

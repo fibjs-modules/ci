@@ -3,3 +3,4 @@ node_modules
 package-lock.json
 samples/**/.travis.yml
 samples/**/appveyor.yml
+samples/**/.github

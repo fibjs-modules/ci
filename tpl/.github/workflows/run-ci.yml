@@ -1,0 +1,80 @@
+{% raw %}name: run ci for fibjs
+
+on:
+  push:
+    branches:
+      - 'ci/**'
+      - 'ci-**'
+      - 'releases/**'
+      - 'feat/**'
+      - 'bugfix/**'
+      - 'dev'
+      - 'master'
+      - 'test_ci'
+    tags:
+      - v*.*.*
+      - test_github_actions_*
+  pull_request:
+    branches:
+      - 'dev'
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    continue-on-error: true
+    strategy:
+      matrix:
+        os: [ubuntu-16.04]
+        version: [{% endraw %}{{ versions.join(', ') }}{% raw %}]
+        arch: [amd64, i386]
+        include:
+          - os: windows-2016
+            arch: amd64
+          - os: macos-10.15
+            arch: amd64
+
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+        with:
+          submodules: 'recursive'
+
+      - name: Set Env Variables
+        id: set-env-vars
+        shell: bash
+        run: |
+          bash .github/workflows/set-env-vars.sh
+        env:
+          ARCH: ${{ matrix.arch }}
+          OS: ${{ matrix.os }}
+
+      - name: Install FIBJS
+        shell: bash
+        run: |
+          npm i;
+          mkdir -p ./node_modules/.bin;
+          rm -rf ./node_modules/.bin/fibjs;
+          if [[ "$RUNNER_OS" != "Windows" ]]; then
+            curl -SL "https://github.com/fibjs/fibjs/releases/download/v${FIBJS_VERSION}/fibjs-v${FIBJS_VERSION}-${FIBJS_OS}-${FIBJS_ARCH}.xz" -o ./node_modules/.bin/fibjs.xz;
+            xz -d ./node_modules/.bin/fibjs.xz;
+            chmod a+x ./node_modules/.bin/fibjs;
+          else
+            curl -SL "https://github.com/fibjs/fibjs/releases/download/v${FIBJS_VERSION}/fibjs-v${FIBJS_VERSION}-windows-${FIBJS_ARCH}.exe" -o ./node_modules/.bin/fibjs.exe;
+          fi
+        env:
+          FIBJS_OS: ${{ steps.set-env-vars.outputs.FIBJS_OS }}
+          FIBJS_ARCH: ${{ steps.set-env-vars.outputs.FIBJS_ARCH }}
+          FIBJS_VERSION: ${{ matrix.version }}
+
+      - name: Run CI
+        shell: bash
+        run: |
+          npm install;
+          ./node_modules/.bin/lerna bootstrap;
+          npm run ci;
+        env:
+          FIBJS_OS: ${{ steps.set-env-vars.outputs.FIBJS_OS }}
+          GIT_BRANCH: ${{ steps.set-env-vars.outputs.GIT_BRANCH }}
+          RELEASE_TAG: ${{ steps.set-env-vars.outputs.RELEASE_TAG }}
+          GIT_TAG: ${{ steps.set-env-vars.outputs.GIT_TAG }}
+{% endraw %}

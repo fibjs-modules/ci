@@ -52,6 +52,25 @@ config.travis_services = arrayify(config.travis_services);
 let ymlName = '';
 
 for (const type of config.types) {
+  if (type === 'actions') {
+    ;[
+      '.github/workflows/run-ci.yml',
+      '.github/workflows/set-env-vars.sh',
+    ].forEach(file => {
+      const srcpath = path.resolve(__dirname, 'tpl', file);
+      const targetpath = path.resolve(root, file);
+    
+      let content = fs.readFileSync(srcpath, 'utf8');
+      content = engine.renderString(content, config);
+      
+      fs.mkdirSync(path.dirname(targetpath), { recursive: true });
+      fs.writeFileSync(targetpath, content);
+      console.log(`[fibjs-ci] create ${targetpath} success`);
+    })
+
+    continue ;
+  }
+  
   if (type === 'travis') {
     ymlName = '.travis.yml';
   } else if (type === 'appveyor') {
