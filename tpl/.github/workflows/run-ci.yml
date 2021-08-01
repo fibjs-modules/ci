@@ -24,14 +24,14 @@ jobs:
     continue-on-error: true
     strategy:
       matrix:
-        os: [ubuntu-16.04]
+        os: [ubuntu-16.04, windows-2016, macos-10.15]
         version: [{% endraw %}{{ versions.join(', ') }}{% raw %}]
         arch: [amd64, i386]
-        include:
+        exclude:
           - os: windows-2016
-            arch: amd64
+            arch: i386
           - os: macos-10.15
-            arch: amd64
+            arch: i386
 
     steps:
       - name: Check out Git repository
@@ -51,15 +51,17 @@ jobs:
       - name: Install FIBJS
         shell: bash
         run: |
-          npm i;
           mkdir -p ./node_modules/.bin;
           rm -rf ./node_modules/.bin/fibjs;
-          if [[ "$RUNNER_OS" != "Windows" ]]; then
+          if [[ "$RUNNER_OS" == "Linux" ]]; then
             curl -SL "https://github.com/fibjs/fibjs/releases/download/v${FIBJS_VERSION}/fibjs-v${FIBJS_VERSION}-${FIBJS_OS}-${FIBJS_ARCH}.xz" -o ./node_modules/.bin/fibjs.xz;
             xz -d ./node_modules/.bin/fibjs.xz;
             chmod a+x ./node_modules/.bin/fibjs;
+          elif [[ "$RUNNER_OS" == "macOS" ]]; then
+            curl -SL "https://github.com/fibjs/fibjs/releases/download/v${FIBJS_VERSION}/fibjs-v${FIBJS_VERSION}-${FIBJS_OS}-${FIBJS_ARCH}" -o ./node_modules/.bin/fibjs;
+            chmod a+x ./node_modules/.bin/fibjs;
           else
-            curl -SL "https://github.com/fibjs/fibjs/releases/download/v${FIBJS_VERSION}/fibjs-v${FIBJS_VERSION}-windows-${FIBJS_ARCH}.exe" -o ./node_modules/.bin/fibjs.exe;
+            curl -SL "https://github.com/fibjs/fibjs/releases/download/v${FIBJS_VERSION}/fibjs-v${FIBJS_VERSION}-${FIBJS_OS}-${FIBJS_ARCH}.exe" -o ./node_modules/.bin/fibjs.exe;
           fi
         env:
           FIBJS_OS: ${{ steps.set-env-vars.outputs.FIBJS_OS }}
