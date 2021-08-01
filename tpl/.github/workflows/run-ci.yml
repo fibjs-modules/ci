@@ -70,7 +70,6 @@ jobs:
         shell: bash
         run: |
           npm install;
-          ./node_modules/.bin/lerna bootstrap;
           npm run ci;
         env:
           FIBJS_OS: ${{ steps.set-env-vars.outputs.FIBJS_OS }}
