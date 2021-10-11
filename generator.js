@@ -30,10 +30,10 @@ try {
 }
 
 const config = Object.assign({
-  // default is travis and appveyor
-  type: 'travis, appveyor',
-  // default version to 0.3.1
-  version: '0.3.1',
+  // default is actions
+  type: 'actions',
+  // default version to 0.33.0
+  version: '0.33.0',
   // default empty
   /* travis services about: start */
   travis_services: [],
