@@ -1,7 +1,14 @@
 
+2.5.0 / 2021-10-11
+==================
+
+  * feat: upgrade ubuntu version for actions.
+  * feat: change default configuration.
+
 2.4.2 / 2021-08-02
 ==================
 
+  * Release 2.4.2
   * fix: actions tpl.
 
 2.4.1 / 2021-08-02
