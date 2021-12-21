@@ -76,7 +76,7 @@ jobs:
         shell: bash
         run: |
           if [[ -f ".github/workflows/run-ci.sh" ]]; then
-            sh .github/workflows/run-ci.sh;
+            bash .github/workflows/run-ci.sh;
           else
             npm install;
             npm run ci;
