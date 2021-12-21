@@ -1,7 +1,13 @@
 
+2.5.1 / 2021-12-21
+==================
+
+  * feat: better support for github actions.
+
 2.5.0 / 2021-10-11
 ==================
 
+  * Release 2.5.0
   * feat: upgrade ubuntu version for actions.
   * feat: change default configuration.
 
