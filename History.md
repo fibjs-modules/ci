@@ -1,7 +1,13 @@
 
+2.5.2 / 2021-12-21
+==================
+
+  * chore: little change.
+
 2.5.1 / 2021-12-21
 ==================
 
+  * Release 2.5.1
   * feat: better support for github actions.
 
 2.5.0 / 2021-10-11
