@@ -1,7 +1,13 @@
 
+2.6.0 / 2022-09-29
+==================
+
+  * feat: use windows-2019 on github actions
+
 2.5.2 / 2021-12-21
 ==================
 
+  * Release 2.5.2
   * chore: little change.
 
 2.5.1 / 2021-12-21
