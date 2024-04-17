@@ -1,7 +1,13 @@
 
+2.7.0 / 2024-04-17
+==================
+
+  * feat: update image version on github actions.
+
 2.6.0 / 2022-09-29
 ==================
 
+  * Release 2.6.0
   * feat: use windows-2019 on github actions
 
 2.5.2 / 2021-12-21
