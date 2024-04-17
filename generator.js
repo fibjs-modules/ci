@@ -56,6 +56,8 @@ const actions_os_arch_presets = [
   { os: 'macos-14', arch: 'arm64' },
 ];
 
+const node_versions_preset = ['16', '18', '20'];
+
 function is_allowed_os_arch (os, arch) {
   return actions_os_arch_presets.some(preset => preset.os === os && preset.arch === arch);
 }
@@ -78,6 +80,7 @@ const config = Object.assign({
     "ubuntu-20.04",
     "macos-11",
   ],
+  node_version: '16',
   arch: ["x64", "x86", "arm64"],
   // default empty
   /* travis services about: start */
@@ -95,6 +98,7 @@ const config = Object.assign({
 clean_config: {
   config.types = arrayify(config.type);
   config.versions = arrayify(config.version);
+  config.node_version = node_versions_preset.includes(config.node_version + '') ? config.node_version : node_versions_preset[0];
   config.travis_services = arrayify(config.travis_services);
 
   const actions_os = arrayify(config.os)
