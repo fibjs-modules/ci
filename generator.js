@@ -10,14 +10,14 @@ const engine = nunjucks.configure({
 });
 
 let root;
-const env_sample_name = process.env.FIBJSCI_SAMPLE_NAME || 'normal';
+const env_sample_name = process.env.FIBJSCI_SAMPLE_NAME;
 // support npminstall path
 if (__dirname.indexOf('.npminstall') >= 0) {
   root = path.join(__dirname, '../../../../../..');
 } else if (is_tested_locally(env_sample_name)) {
   root = path.join(__dirname, `./samples/${env_sample_name}`);
 } else {
-  root = path.join(__dirname, '../../..');
+  root = process.env.TEST_CI_PATH ? path.resolve(process.env.TEST_CI_PATH) : path.resolve(__dirname, '../../..');
 }
 
 let pkg;
@@ -29,13 +29,59 @@ try {
   process.exit(0);
 }
 
+const actions_os_arch_presets = [
+  { os: 'windows-2019', arch: 'x64' },
+  { os: 'windows-2019', arch: 'x86' },
+  { os: 'windows-2022', arch: 'x64' },
+  { os: 'windows-2022', arch: 'x86' },
+  { os: 'windows-2022', arch: 'arm64' },
+
+  // { os: 'ubuntu-18.04', arch: 'arm' },
+  { os: 'ubuntu-20.04', arch: 'x64' },
+  { os: 'ubuntu-20.04', arch: 'x86' },
+  // { os: 'ubuntu-20.04', arch: 'arm64' },
+  { os: 'ubuntu-22.04', arch: 'x64' },
+  { os: 'ubuntu-22.04', arch: 'x86' },
+  // { os: 'ubuntu-22.04', arch: 'arm64' },
+
+  { os: 'macos-10.15', arch: 'x64' },
+  
+  { os: 'macos-11', arch: 'x64' },
+  // { os: 'macos-11', arch: 'arm64' },
+  { os: 'macos-12', arch: 'x64' },
+  // { os: 'macos-12', arch: 'arm64' },
+  { os: 'macos-13', arch: 'x64' },
+  // { os: 'macos-13', arch: 'arm64' },
+  { os: 'macos-14', arch: 'x64' },
+  { os: 'macos-14', arch: 'arm64' },
+];
+
+function is_allowed_os_arch (os, arch) {
+  return actions_os_arch_presets.some(preset => preset.os === os && preset.arch === arch);
+}
+
+function is_lt_0_37_0 (version) {
+  const [major, minor, patch] = version.split('.').map(Number)
+  return major < 0 || (major === 0 && minor < 37);
+}
+
 const config = Object.assign({
   // default is actions
   type: 'actions',
-  // default version to 0.33.0
-  version: '0.33.0',
+  // default version to 0.36.0, 0.37.0
+  version: [
+    '0.36.0',
+    '0.37.0'
+  ],
+  os: [
+    "windows-2019",
+    "ubuntu-20.04",
+    "macos-11",
+  ],
+  arch: ["x64", "x86", "arm64"],
   // default empty
   /* travis services about: start */
+  /** @deprecated */
   travis_services: [],
   get use_travis_services () {
     return !!this.travis_services.length
@@ -44,10 +90,45 @@ const config = Object.assign({
     return ~this.travis_services.indexOf('mysql')
   }
   /* travis services about: end */
-}, pkg.ci);
-config.types = arrayify(config.type);
-config.versions = arrayify(config.version);
-config.travis_services = arrayify(config.travis_services);
+}, pkg.ci, pkg.fibjs_ci);
+
+clean_config: {
+  config.types = arrayify(config.type);
+  config.versions = arrayify(config.version);
+  config.travis_services = arrayify(config.travis_services);
+
+  const actions_os = arrayify(config.os)
+  const actions_arch = arrayify(config.arch)
+  config.$actions_os_arch_version = [];
+  actions_os.forEach(os => {
+    actions_arch.forEach((arch) => {
+      if (!is_allowed_os_arch(os, arch)) {
+        console.warn(`[fibjs-ci] os: ${os}, arch: ${arch} is not supported in actions, ignored.`)
+        return ;
+      }
+      config.versions.forEach(fibjs => {
+        if (is_lt_0_37_0(fibjs) && arch === 'arm64') {
+          console.warn(`[fibjs-ci] fibjs ${fibjs} is not supported on arm64, ignored.`)
+        } else {
+          config.$actions_os_arch_version.push({ os, arch, fibjs })
+        }
+      })
+    });
+  });
+
+  // config.versions_lt_0_37_0 = [];
+  // config.versions_ge_0_37_0 = [];
+  // config.versions.forEach(v => {
+  //   if (is_lt_0_37_0(v)) {
+  //     config.versions_lt_0_37_0.push(v);
+  //   } else {
+  //     config.versions_ge_0_37_0.push(v);
+  //   }
+  // })
+  
+  // config.has_lt_0_37_0 = !!config.versions_lt_0_37_0.length;
+  // config.has_ge_0_37_0 = !!config.versions_ge_0_37_0.length;
+}
 
 let ymlName = '';
 
@@ -55,6 +136,7 @@ for (const type of config.types) {
   if (type === 'actions') {
     ;[
       '.github/workflows/run-ci.yml',
+      '.github/workflows/fns.sh',
       '.github/workflows/set-env-vars.sh',
     ].forEach(file => {
       const srcpath = path.resolve(__dirname, 'tpl', file);
