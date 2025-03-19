@@ -1,7 +1,20 @@
 
+2.7.2 / 2025-03-19
+==================
+
+  * build: support more actions images, disable x86 arch by default. (#6)
+
+2.7.1 / 2024-04-17
+==================
+
+  * Release 2.7.1
+  * feat: support node_version.
+  * feat: refactor actions support.
+
 2.7.0 / 2024-04-17
 ==================
 
+  * Release 2.7.0
   * feat: update image version on github actions.
 
 2.6.0 / 2022-09-29
