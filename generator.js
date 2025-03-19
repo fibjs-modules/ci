@@ -3,6 +3,7 @@
 const path = require('path');
 const fs = require('fs');
 const nunjucks = require('nunjucks');
+const chalk = require('chalk');
 
 const engine = nunjucks.configure({
   autoescape: false,
@@ -24,11 +25,12 @@ let pkg;
 try {
   pkg = require(path.join(root, 'package.json'));
 } catch (err) {
-  console.error('read package.json error: %s', err.message);
+  console.error(`read package.json error: %s`, err.message);
   console.error('[fibjs-ci] stop create ci yml');
   process.exit(0);
 }
 
+// @see https://github.com/actions/runner-images
 const actions_os_arch_presets = [
   { os: 'windows-2019', arch: 'x64' },
   { os: 'windows-2019', arch: 'x86' },
@@ -48,12 +50,26 @@ const actions_os_arch_presets = [
   
   { os: 'macos-11', arch: 'x64' },
   // { os: 'macos-11', arch: 'arm64' },
+
   { os: 'macos-12', arch: 'x64' },
   // { os: 'macos-12', arch: 'arm64' },
+
   { os: 'macos-13', arch: 'x64' },
-  // { os: 'macos-13', arch: 'arm64' },
+  { os: 'macos-13-large', arch: 'x64' },
+  { os: 'macos-13-xlarge', arch: 'arm64' },
+
   { os: 'macos-14', arch: 'x64' },
+  { os: 'macos-14-large', arch: 'x64' },
   { os: 'macos-14', arch: 'arm64' },
+  { os: 'macos-14-xlarge', arch: 'arm64' },
+
+  { os: 'macos-15-large', arch: 'x64' },
+  { os: 'macos-15', arch: 'arm64' },
+  { os: 'macos-15-xlarge', arch: 'arm64' },
+
+  { os: 'macos-latest-large', arch: 'x64' },
+  { os: 'macos-latest', arch: 'arm64' },
+  { os: 'macos-latest-xlarge', arch: 'arm64' },
 ];
 
 const node_versions_preset = ['16', '18', '20'];
@@ -78,10 +94,14 @@ const config = Object.assign({
   os: [
     "windows-2019",
     "ubuntu-20.04",
-    "macos-11",
+    "macos-13",
   ],
   node_version: '16',
-  arch: ["x64", "x86", "arm64"],
+  arch: [
+    // "x86",
+    "x64",
+    "arm64"
+  ],
   // default empty
   /* travis services about: start */
   /** @deprecated */
@@ -107,12 +127,12 @@ clean_config: {
   actions_os.forEach(os => {
     actions_arch.forEach((arch) => {
       if (!is_allowed_os_arch(os, arch)) {
-        console.warn(`[fibjs-ci] os: ${os}, arch: ${arch} is not supported in actions, ignored.`)
+        console.warn(chalk.yellow(`[fibjs-ci] [os: ${chalk.red(os)}, arch: ${chalk.red(arch)}] is not supported in actions, ignored.`))
         return ;
       }
       config.versions.forEach(fibjs => {
         if (is_lt_0_37_0(fibjs) && arch === 'arm64') {
-          console.warn(`[fibjs-ci] fibjs ${fibjs} is not supported on arm64, ignored.`)
+          console.warn(chalk.yellow(`[fibjs-ci] [fibjs ${chalk.red(fibjs)}, arch: ${chalk.red('arm64')}] is not supported in actions, ignored.`))
         } else {
           config.$actions_os_arch_version.push({ os, arch, fibjs })
         }
@@ -151,7 +171,7 @@ for (const type of config.types) {
       
       fs.mkdirSync(path.dirname(targetpath), { recursive: true });
       fs.writeFileSync(targetpath, content);
-      console.log(`[fibjs-ci] create ${targetpath} success`);
+      console.log((`[fibjs-ci] create ${chalk.green(targetpath)} success`));
     })
 
     continue ;

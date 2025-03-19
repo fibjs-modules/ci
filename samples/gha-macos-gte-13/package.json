@@ -1,0 +1,38 @@
+{
+  "name": "actions-ge-0.37.0",
+  "private": true,
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "fibjs_ci": {
+    "type": "actions",
+    "versions": [
+      "0.36.0",
+      "0.37.0"
+    ],
+    "os": [
+      "ubuntu-22.04",
+      "windows-2022",
+      "macos-13",
+      "macos-13-large",
+      "macos-14",
+      "macos-14-large",
+      "macos-14-xlarge",
+      "macos-15",
+      "macos-15-large",
+      "macos-15-xlarge",
+
+      "macos-latest",
+      "macos-latest-large",
+      "macos-latest-xlarge"
+    ]
+  },
+  "license": "ISC",
+  "dependencies": {
+    "@fibjs/ci": "file:../.."
+  }
+}
